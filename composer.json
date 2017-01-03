@@ -1,6 +1,6 @@
 {
-    "name": "adzpire/yii2-cmmsinventory",
-    "description": "pn psu comm-sci inventory system",
+    "name": "adzpire/yii2-cmmslocation",
+    "description": "pn psu comm-sci location database",
     "type": "yii2-extension",
     "keywords": ["yii2","extension"],
     "license": "GPL-3.0",
@@ -23,7 +23,7 @@
     },
     "autoload": {
         "psr-4": {
-            "adzpire\\inventory\\": ""
+            "adzpire\\location\\": ""
         }
     },
     "extra": {
