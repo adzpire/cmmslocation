@@ -6,8 +6,8 @@
     "license": "GPL-3.0",
     "minimum-stability": "stable",
     "support": {
-        "source": "https://github.com/adzpire/yii2-cmmsinventory.git",
-        "issues": "https://github.com/adzpire/yii2-cmmsinventory/issues"
+        "source": "https://github.com/adzpire/yii2-cmmslocation.git",
+        "issues": "https://github.com/adzpire/yii2-cmmslocation/issues"
     },
     "authors": [
         {
