@@ -4,7 +4,7 @@ use yii\bootstrap\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model backend\modules\inventory\models\MainLocation */
+/* @var $model adzpire\inventory\models\MainLocation */
 
 $this->params['breadcrumbs'][] = ['label' => Yii::t('inventory/app', 'Main Locations'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;

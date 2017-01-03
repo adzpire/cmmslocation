@@ -7,7 +7,7 @@ use kartik\widgets\FileInput;
 use kartik\widgets\ActiveForm;
 */
 /* @var $this yii\web\View */
-/* @var $model backend\modules\inventory\models\MainLocation */
+/* @var $model adzpire\inventory\models\MainLocation */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 

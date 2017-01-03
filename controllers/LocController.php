@@ -1,10 +1,10 @@
 <?php
 
-namespace backend\modules\location\controllers;
+namespace adzpire\location\controllers;
 
 use Yii;
-use backend\modules\location\models\MainLocation;
-use backend\modules\location\models\MainLocationSearch;
+use adzpire\location\models\MainLocation;
+use adzpire\location\models\MainLocationSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

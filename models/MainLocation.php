@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\location\models;
+namespace adzpire\location\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;

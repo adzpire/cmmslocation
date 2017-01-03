@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\location;
+namespace adzpire\location;
 
 use Yii;
 /**
@@ -11,7 +11,7 @@ class Module extends \yii\base\Module
     /**
      * @inheritdoc
      */
-    public $controllerNamespace = 'backend\modules\location\controllers';
+    public $controllerNamespace = 'adzpire\location\controllers';
 
     /**
      * @inheritdoc
@@ -24,7 +24,7 @@ class Module extends \yii\base\Module
             \Yii::$app->i18n->translations['tc'] = [
                 'class' => 'yii\i18n\PhpMessageSource',
                 'sourceLanguage' => 'en',
-                'basePath' => '@backend/modules/location/messages',
+                'basePath' => '@vendor/messages',
             ];
         }
 		parent::init();

@@ -5,10 +5,10 @@ namespace backend\modules\location\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-//use backend\modules\inventory\models\MainLocation;
+//use adzpire\inventory\models\MainLocation;
 
 /**
- * MainLocationSearch represents the model behind the search form about `backend\modules\inventory\models\MainLocation`.
+ * MainLocationSearch represents the model behind the search form about `adzpire\inventory\models\MainLocation`.
  */
 class MainLocationSearch extends MainLocation
 {

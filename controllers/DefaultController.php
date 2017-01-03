@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\location\controllers;
+namespace adzpire\location\controllers;
 
 use yii\web\Controller;
 
