@@ -1,14 +1,14 @@
 <?php
 
-namespace adzpire\location\controllers;
+namespace backend\modules\location\controllers;
 
 use Yii;
-use adzpire\location\models\MainLocation;
-use adzpire\location\models\MainLocationSearch;
+use backend\modules\location\models\MainLocation;
+use backend\modules\location\models\MainLocationSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\filters\AccessControl;
 use yii\web\Response;
 use yii\bootstrap\Html;
 use yii\bootstrap\ActiveForm;
@@ -30,7 +30,25 @@ class LocController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'access' => [
+                'class' => AccessControl::className(),
+                //'only' => ['create', 'update', 'delete'],
+                'rules' => [
+                    // allow authenticated users
+                    [
+                        'allow' => true,
+                        'roles' => ['root'],
+                    ],
+                    // everything else is denied by default
+                ],
+            ],
         ];
+    }
+
+    public $moduletitle;
+    public function beforeAction($action){
+        $this->moduletitle = Yii::t('app', Yii::$app->controller->module->params['title']);
+        return parent::beforeAction($action);
     }
 
     /**
@@ -40,7 +58,7 @@ class LocController extends Controller
     public function actionIndex()
     {
 
-        Yii::$app->view->title = Yii::t('inventory/app', 'Main Locations').' - '.Yii::t('inventory/app', Yii::$app->controller->module->params['title']);
+        Yii::$app->view->title = Yii::t('app', 'หน้ารายการ').' - '.$this->moduletitle;
 
         $searchModel = new MainLocationSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -60,7 +78,7 @@ class LocController extends Controller
     {
         $model = $this->findModel($id);
 
-        Yii::$app->view->title = Yii::t('inventory/app', 'Detail').' : '.$model->id.' - '.Yii::t('inventory/app', Yii::$app->controller->module->params['title']);
+        Yii::$app->view->title = Yii::t('app', 'ดูรายละเอียด').' : '.$model->id.' - '.$this->moduletitle;
 
         return $this->render('view', [
             'model' => $model,
@@ -74,7 +92,7 @@ class LocController extends Controller
      */
     public function actionCreate()
     {
-        Yii::$app->view->title = Yii::t('inventory/app', 'Create').' - '.Yii::t('inventory/app', Yii::$app->controller->module->params['title']);
+        Yii::$app->view->title = Yii::t('app', 'สร้างใหม่').' - '.$this->moduletitle;
 
         $model = new MainLocation();
 
@@ -86,22 +104,12 @@ class LocController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             if($model->save()){
-                Yii::$app->getSession()->setFlash('addflsh', [
-                    'type' => 'success',
-                    'duration' => 4000,
-                    'icon' => 'glyphicon glyphicon-ok-circle',
-                    'message' => Yii::t('inventory/app', 'UrDataCreated'),
-                ]);
-                return $this->redirect(['view', 'id' => $model->wu_id]);
+                $this->succalert('edtflsh', 'สร้างเรียบร้อย');
+                return $this->redirect(['view', 'id' => $model->id]);
             }else{
-                Yii::$app->getSession()->setFlash('addflsh', [
-                    'type' => 'danger',
-                    'duration' => 4000,
-                    'icon' => 'glyphicon glyphicon-remove-circle',
-                    'message' => Yii::t('inventory/app', 'UrDataNotCreated'),
-                ]);
+                $this->dangalert('edtflsh', 'สร้างรายการไม่ได้');
             }
-            return $this->redirect(['view', 'id' => $model->id]);
+            print_r($model->getErrors());exit;
         }
 
         return $this->render('create', [
@@ -121,30 +129,20 @@ class LocController extends Controller
     {
         $model = $this->findModel($id);
 
-        Yii::$app->view->title = Yii::t('inventory/app', 'Update {modelClass}: ', [
+        Yii::$app->view->title = Yii::t('app', 'อัพเดต {modelClass}: ', [
                 'modelClass' => 'Main Location',
-            ]) . $model->id.' - '.Yii::t('inventory/app', Yii::$app->controller->module->params['title']);
+            ]) . $model->id.' - '.$this->moduletitle;
 
 
 
         if ($model->load(Yii::$app->request->post())) {
             if($model->save()){
-                Yii::$app->getSession()->setFlash('edtflsh', [
-                    'type' => 'success',
-                    'duration' => 4000,
-                    'icon' => 'glyphicon glyphicon-ok-circle',
-                    'message' => Yii::t('inventory/app', 'UrDataUpdated'),
-                ]);
-                return $this->redirect(['view', 'id' => $model->wu_id]);
+                $this->succalert('edtflsh', 'แก้ไขเรียบร้อย');
+                return $this->redirect(['view', 'id' => $model->id]);
             }else{
-                Yii::$app->getSession()->setFlash('edtflsh', [
-                    'type' => 'danger',
-                    'duration' => 4000,
-                    'icon' => 'glyphicon glyphicon-remove-circle',
-                    'message' => Yii::t('inventory/app', 'UrDataNotUpdated'),
-                ]);
+                $this->dangalert('edtflsh', 'แก้ไขรายการไม่ได้');
             }
-            return $this->redirect(['view', 'id' => $model->id]);
+            print_r($model->getErrors());exit;
         }
 
         return $this->render('update', [
@@ -164,12 +162,7 @@ class LocController extends Controller
     {
         $this->findModel($id)->delete();
 
-        Yii::$app->getSession()->setFlash('edtflsh', [
-            'type' => 'success',
-            'duration' => 4000,
-            'icon' => 'glyphicon glyphicon-ok-circle',
-            'message' => Yii::t('inventory/app', 'UrDataDeleted'),
-        ]);
+        $this->succalert('edtflsh', 'ลบเรียบร้อย');
 
 
         return $this->redirect(['index']);
@@ -190,4 +183,5 @@ class LocController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
 }

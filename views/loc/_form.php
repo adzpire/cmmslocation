@@ -7,7 +7,7 @@ use kartik\widgets\FileInput;
 use kartik\widgets\ActiveForm;
 */
 /* @var $this yii\web\View */
-/* @var $model adzpire\inventory\models\MainLocation */
+/* @var $model backend\modules\inventory\models\MainLocation */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -48,9 +48,9 @@ use kartik\widgets\ActiveForm;
 		*/
 	?>
     <div class="form-group text-center">
-        <?= Html::submitButton($model->isNewRecord ?  Html::icon('floppy-disk').' '.Yii::t('inventory/app', 'Save') :  Html::icon('floppy-disk').' '.Yii::t('inventory/app', 'Save'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton( Html::icon('floppy-disk').' '.Yii::t('app', 'บันทึก'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 		<?php if(!$model->isNewRecord){
-		 echo Html::resetButton( Html::icon('refresh').' '.Yii::t('inventory/app', 'Reset') , ['class' => 'btn btn-warning']); 
+		 echo Html::resetButton( Html::icon('refresh').' '.Yii::t('app', 'เริ่มใหม่') , ['class' => 'btn btn-warning']);
 		 } ?>
 		 
 	</div>

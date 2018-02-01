@@ -5,7 +5,7 @@
 
 use yii\bootstrap\Html;
 use yii\helpers\Url;
-use yii\bootstrap\Nav;
+use backend\components\Monav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use backend\assets\AppAsset;
@@ -190,13 +190,22 @@ $this->registerJs($js);
             background-color: #ffffff;
             border: 1px solid #a15426;
         }
+        .btn-link{
+            padding: 15px;
+        }
+        .nav-main-backend{
+		    display : none; 
+		}
+		.mywrap{
+		    margin-top: -50px;
+        }
      ");
     ?>
 </head>
 <body>
 <?php $this->beginBody() ?>
-<?php $moduleID = \Yii::$app->controller->module->id;
-//print_r($module->id);
+<?php
+$modul = \Yii::$app->controller->module;
 ?>
 <?php
 $this->registerLinkTag([
@@ -206,14 +215,14 @@ $this->registerLinkTag([
     'href' => '/media/commsci.ico',
 ]);
 ?>
-<div class="wrap">
+<div class="wrap mywrap">
     <?php
     NavBar::begin([
         'brandLabel' => '<img class="cmmslogo" alt="Brand" src="/media/parallax/img/commsci_logo_black.png">' . '<table class="navtablelogo"><tbody>
 		  <tr><td>' . Yii::t('app', 'ระบบจัดการสถานที่') . '</td></tr>
-		  <tr style="font-size: small;"><td>' . Yii::t('app', 'จัดการห้อง/สถานที่ คณะวิทยาการสื่อสาร') . '</td></tr>
+		  <tr style="font-size: small;"><td>' . Yii::t('app', 'ข้อมูลห้อง/สถานที่ คณะวิทยาการสื่อสาร') . '</td></tr>
 		  </tbody></table>',
-        'brandUrl' => Url::toRoute('/' . $moduleID),
+        'brandUrl' => Url::toRoute('/' . $modul->id),
         'innerContainerOptions' => ['class' => 'container-fluid'],
         'options' => [
             'class' => 'navbar-default',
@@ -240,31 +249,28 @@ $this->registerLinkTag([
     ];
     if (Yii::$app->user->isGuest) {
         // $menuItems[] = ['label' => Yii::t( $moduleID.'/app', 'Signup'), 'url' => ['/site/signup']];
-        $menuItems[] = ['label' => Html::Icon('log-in') . ' ' . Yii::t('app', 'Login'), 'url' => Yii::$app->user->loginUrl];
+        $menuItems1[] = ['label' => Html::Icon('log-in').' '.Yii::t( 'app', 'เข้าสู่ระบบ'), 'url' => Yii::$app->user->loginUrl];
     } else {
-        $menuItems[] = [
-            'label' => Html::Icon('log-out') . ' ' . Yii::t('app', 'Logout'),
-            'url' => ['#'],
-            'items' =>
-                [
-                    '<li>'
-                    .Html::a(Html::Icon('dashboard') . ' ' . Yii::t('app', 'office') , ['/'])
-                    .'</li>',
-                    '<li>'
-                    . Html::beginForm(['/site/logout', 'url' => Url::current()], 'post')
-                    . Html::submitButton(
-                        Html::Icon('log-out') . ' ' . Yii::t('app', 'Logout') . ' (' . Yii::$app->user->identity->username . ')',
-                        ['class' => 'btn btn-link']
-                    )
-                    . Html::endForm()
-                    . '</li>',
-                ],
-        ];
+        $menuItems1[] = ['label' => Html::Icon('dashboard').' '.Yii::t( 'app', 'office'), 'url' => ['/']];
+        $menuItems1[] = ['label' => Html::Icon('globe').' '.Yii::t( 'app', 'หน้าเว็บไซต์หลัก'), 'url' => '/'];
+        $menuItems1[] = '<li>'
+            . Html::beginForm(['/site/logout', 'url' => Url::current()], 'post')
+            . Html::submitButton(
+                Html::Icon('log-out') . ' ' . Yii::t('app', 'ออกจากระบบ') . ' (' . Yii::$app->user->identity->username . ')',
+                ['class' => 'btn btn-link']
+            )
+            . Html::endForm()
+            . '</li>';
     }
-    echo Nav::widget([
+    echo Monav::widget([
         'options' => ['class' => 'navbar-nav navbar-left'],
         'encodeLabels' => false,
         'items' => $menuItems,
+    ]);
+    echo Monav::widget([
+        'options' => ['class' => 'navbar-nav navbar-right'],
+        'encodeLabels' => false,
+        'items' => $menuItems1,
     ]);
     NavBar::end();
     ?>
@@ -272,10 +278,10 @@ $this->registerLinkTag([
         <?php
         $cookies = Yii::$app->request->cookies;
 
-        if (($cookie = $cookies->get('itmdlvers')) !== null) {
-            if ($cookie->value != Yii::$app->controller->module->params['ModuleVers']) {
+        if (($cookie = $cookies->get($modul->params['modulecookies'])) !== null) {
+            if ($cookie->value != $modul->params['ModuleVers']) {
                 $delcookies = Yii::$app->response->cookies;
-                $delcookies->remove('itmdlvers');
+                $delcookies->remove($modul->params['modulecookies']);
             }
         } else {
             echo $this->render('/_version');
@@ -287,7 +293,7 @@ $this->registerLinkTag([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             'homeLink' => [
                 'label' => Html::Icon('home'),
-                'url' => Url::toRoute('/' . $moduleID),
+                'url' => Url::toRoute('/' . $modul->id),
             ],
         ]) ?>
         <?= Alert::widget() ?>
@@ -340,9 +346,9 @@ echo Nav::widget([
 <footer class="footer">
     <div class="container-fluid">
         <p>© 2016 PSU YII DEV <span
-                class="label label-danger"><?php echo Yii::$app->controller->module->params['ModuleVers']; ?></span>
-            <?php echo '  ' . Yii::t('app', 'footer_problem'); ?> : <a
-                href="mailto:<?php echo Yii::t('app', 'adminEmail'); ?>"><?php echo Yii::t('app', 'adminName'); ?></a><?php echo ' ' . Yii::t('app', 'adminfooterIntercom'); ?>
+                class="label label-danger"><?php echo $modul->params['ModuleVers']; ?></span>
+            <?php echo '  ' . Yii::t('app', 'พบปัญหาในการใช้งาน ติดต่อ - '); ?> : <?php echo Html::mailto('อับดุลอาซิส ดือราแม', 'abdul-aziz.d@psu.ac.th'); ?>
+            <?php echo ' ' . Yii::t('app', 'โทรศัพท์ภายใน : 2618'); ?>
             <a href="#" data-toggle="tooltip" title="<?php echo Yii::t('app', 'responsive_web'); ?>"><img
                     src="<?php echo '/uploads/adzpireImages/responsive-icon.png'; ?>"
                     width="30" height="30"/></a>

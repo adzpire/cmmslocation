@@ -6,7 +6,7 @@ use yii\bootstrap\Html;
 use kartik\grid\GridView;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
-/* @var $searchModel adzpire\inventory\models\MainLocationSearch */
+/* @var $searchModel backend\modules\inventory\models\MainLocationSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->params['breadcrumbs'][] = $this->title;
@@ -46,15 +46,15 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
         ],
 		'pager' => [
-			'firstPageLabel' => Yii::t('inventory/app', '1stPagi'),
-			'lastPageLabel' => Yii::t('inventory/app', 'lastPagi'),
+			'firstPageLabel' => Yii::t('app', 'รายการแรกสุด'),
+			'lastPageLabel' => Yii::t('app', 'รายการท้ายสุด'),
 		],
 		'responsive'=>true,
 		'hover'=>true,
 		'toolbar'=> [
 			['content'=>
-				Html::a(Html::icon('plus'), ['create'], ['class'=>'btn btn-success', 'title'=>Yii::t('kpi/app', 'Add Book')]).' '.
-				Html::a(Html::icon('repeat'), ['grid-demo'], ['data-pjax'=>0, 'class'=>'btn btn-default', 'title'=>Yii::t('kpi/app', 'Reset Grid')])
+				Html::a(Html::icon('plus'), ['create'], ['class'=>'btn btn-success', 'title'=>Yii::t('app', 'Add Book')]).' '.
+				Html::a(Html::icon('repeat'), ['grid-demo'], ['data-pjax'=>0, 'class'=>'btn btn-default', 'title'=>Yii::t('app', 'Reset Grid')])
 			],
 			//'{export}',
 			'{toggleData}',

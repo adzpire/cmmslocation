@@ -4,7 +4,7 @@ use yii\bootstrap\Html;
 use yii\bootstrap\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model adzpire\inventory\models\MainLocationSearch */
+/* @var $model backend\modules\inventory\models\MainLocationSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 

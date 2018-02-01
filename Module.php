@@ -1,6 +1,6 @@
 <?php
 
-namespace adzpire\location;
+namespace backend\modules\location;
 
 use Yii;
 /**
@@ -11,7 +11,7 @@ class Module extends \yii\base\Module
     /**
      * @inheritdoc
      */
-    public $controllerNamespace = 'adzpire\location\controllers';
+    public $controllerNamespace = 'backend\modules\location\controllers';
 
     /**
      * @inheritdoc
@@ -24,14 +24,15 @@ class Module extends \yii\base\Module
             \Yii::$app->i18n->translations['tc'] = [
                 'class' => 'yii\i18n\PhpMessageSource',
                 'sourceLanguage' => 'en',
-                'basePath' => '@vendor/messages',
+                'basePath' => '@backend/modules/location/messages',
             ];
         }
 		parent::init();
 
 		$this->layout = 'location';
-		$this->params['ModuleVers'] = '1.0.0';
-		$this->params['title'] = 'location';
+		$this->params['ModuleVers'] = '1.1';
+		$this->params['title'] = 'ข้อมูลสถานที่ในองค์กร';
+        $this->params['modulecookies'] = 'locationck';
         // custom initialization code goes here
     }
 }
